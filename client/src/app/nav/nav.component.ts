@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -19,10 +19,11 @@ export class NavComponent {
   private toastr = inject(ToastrService);
   model: any={};
 
-  login(){
+  login(loginForm: NgForm){
     this.accountService.login(this.model).subscribe({
       next: () => {
-        this.router.navigateByUrl('/members')
+        this.router.navigateByUrl('/members');
+        loginForm.reset();
       },
       error: error => this.toastr.error(error.error)
     })
